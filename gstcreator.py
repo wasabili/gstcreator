@@ -129,6 +129,7 @@ class GSoundThemeCreator:
         command = command.replace('"', '\\"') # escape
         command = command.replace('$', '\\$')
         command = command.replace('`', '\\`')
+        command = command.replace('\\', '\\\\')
         command = needsu and ('gksu -D "Sound Theme Creator" "%s" ' % command) or command
         status, output = commands.getstatusoutput(command)
 
