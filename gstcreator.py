@@ -28,12 +28,18 @@ if gtk.pygtk_version < (2,12,0):
 
 
 import os.path
+
 UI_PATH = os.path.join(os.getcwd(), 'gstcreator.ui')
 STCREATOR = '/usr/bin/stcreator'
 SOUND_DIR = '/usr/share/sounds'
 
+EXTRA_EVENT_SOUNDS = (('Press a button', True, 'bell'),
+('Click a menu', True, 'menu-click'),
+('Empty the trush', True, 'trush-empty'))
 
 class GSoundThemeCreator:
+
+    extras = {}
 
     def __init__(self):
         """Initializer"""
@@ -63,8 +69,11 @@ class GSoundThemeCreator:
         # Other event sounds
         self.vb_others = self.xml.get_object('vb_other_events')
         self.cmb_events = self.xml.get_object('cmb_events')
-        self.list_events = self.cmb_events.get_model()
         self.btn_add_events = self.xml.get_object('btn_add_another_event')
+        self.list_events = self.cmb_events.get_model()
+        for i in EXTRA_EVENT_SOUNDS:
+            self.list_events.append(i)
+        self.cmb_events.set_active(0)
 
         self.window = self.xml.get_object('mainwindow')
         self.window.show_all()
@@ -111,41 +120,43 @@ class GSoundThemeCreator:
 
         # --Sound files--------------------------
         if self.xml.get_object('cb_login').get_active():
-            login = self.xml.get_object('fc_login').get_filename() or ''
+            login = self.xml.get_object('fc_login').get_filename()
             if login:
-                command += ' --login='+login
+                command += ' --login '+self.escapesh(login)
         if self.xml.get_object('cb_logout').get_active():
-            logout = self.xml.get_object('fc_logout').get_filename() or ''
+            logout = self.xml.get_object('fc_logout').get_filename()
             if logout:
-                command += ' --logout='+logout
+                command += ' --logout '+self.escapesh(logout)
         if self.xml.get_object('cb_error').get_active():
-            error = self.xml.get_object('fc_error').get_filename() or ''
+            error = self.xml.get_object('fc_error').get_filename()
             if error:
-                command += ' --error='+error
+                command += ' --error '+self.escapesh(error)
         if self.xml.get_object('cb_warning').get_active():
-            warning = self.xml.get_object('fc_warning').get_filename() or ''
+            warning = self.xml.get_object('fc_warning').get_filename()
             if warning:
-                command += ' --warning='+warning
+                command += ' --warning '+self.escapesh(warning)
         if self.xml.get_object('cb_information').get_active():
-            information = self.xml.get_object('fc_information').get_filename() or ''
+            information = self.xml.get_object('fc_information').get_filename()
             if information:
-                command += ' --information='+information
+                command += ' --information '+self.escapesh(information)
         if self.xml.get_object('cb_question').get_active():
-            question = self.xml.get_object('fc_question').get_filename() or ''
+            question = self.xml.get_object('fc_question').get_filename()
             if question:
-                command += ' --question='+question
+                command += ' --question '+self.escapesh(question)
         if self.xml.get_object('cb_sysready').get_active():
-            sysready = self.xml.get_object('fc_sysready').get_filename() or ''
+            sysready = self.xml.get_object('fc_sysready').get_filename()
             if sysready:
-                command += ' --sysready='+sysready
+                command += ' --sysready '+self.escapesh(sysready)
 
+
+        # --Extra events---------------------
+        for spec, fcb in self.extras.items():
+            sound = fcb.get_filename()
+            if sound:
+                command += ' %s %s' % (spec, self.escapesh(sound))
 
         # --Execute--------------------------
         import commands
-        command = command.replace('"', '\\"') # escape
-        command = command.replace('$', '\\$')
-        command = command.replace('`', '\\`')
-        command = command.replace('\\', '\\\\')
         command = needsu and ('gksu -D "Sound Theme Creator" "%s" ' % command) or command
         status, output = commands.getstatusoutput(command)
 
@@ -161,6 +172,14 @@ class GSoundThemeCreator:
             dialog.set_markup('Successfully done'+(not needsu and ('\nSee: %s' % target) or ''))
             dialog.run()
             dialog.destroy()
+
+    def escapesh(self, value):
+        value = value.replace(' ', '\\ ')
+        value = value.replace('"', '\\"')
+        value = value.replace('$', '\\$')
+        value = value.replace('`', '\\`')
+        value = value.replace('\\', '\\\\')
+        return value
 
     def on_fc_file_set(self, widget, *args):
         location = widget.get_current_folder()
@@ -205,6 +224,7 @@ class GSoundThemeCreator:
         # Selection in combobox
         current_iter = self.cmb_events.get_active_iter()
         value = self.list_events.get_value(current_iter, 0)
+        spec = self.list_events.get_value(current_iter, 2)
         if not self.list_events.get_value(current_iter, 1):
             return
 
@@ -227,7 +247,7 @@ class GSoundThemeCreator:
 
         # Button
         bt = gtk.Button(stock=gtk.STOCK_REMOVE)
-        bt.connect('clicked', self.on_btn_remove_clicked, hb, current_iter)
+        bt.connect('clicked', self.on_btn_remove_clicked, hb, current_iter, spec)
         
         hb.pack_start(lb, expand=True)
         hb.pack_start(fb, expand=True)
@@ -236,15 +256,21 @@ class GSoundThemeCreator:
         self.vb_others.pack_start(hb)
         self.vb_others.show_all()
 
-        # get back focus FIXME it doesnt work
+        # add to dic
+        self.extras[spec] = fb
+
+        # get back focus TODO it doesnt work
         self.btn_add_events.grab_focus()
 
         # Mark as already selected
         self.list_events.set(current_iter, 1, False)
 
-    def on_btn_remove_clicked(self, widget, hbox, event_iter, *args):
+    def on_btn_remove_clicked(self, widget, hbox, event_iter, key, *args):
         self.vb_others.remove(hbox)
         self.list_events.set(event_iter, 1, True)
+
+        # remove from dic
+        del self.extras[key]
 
     def gtk_main_quit(self, *args):
         gtk.main_quit()

@@ -405,6 +405,7 @@
                         </child>
                       </object>
                       <packing>
+                        <property name="expand">False</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
@@ -568,20 +569,8 @@
       <column type="gchararray"/>
       <!-- column-name sensitive -->
       <column type="gboolean"/>
+      <!-- column-name spec -->
+      <column type="gchararray"/>
     </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">window-close</col>
-        <col id="1">True</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">window-slide-in</col>
-        <col id="1">True</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">window-slide-out</col>
-        <col id="1">True</col>
-      </row>
-    </data>
   </object>
 </interface>
