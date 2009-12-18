@@ -130,19 +130,6 @@ class GSoundThemeCreator:
                 command += ' --sysready='+sysready
 
 
-        # --Overwrite?---------------------------
-        if os.path.exists(os.path.join(target, title)):
-            dialog = gtk.MessageDialog(type=gtk.MESSAGE_WARNING, buttons=gtk.BUTTONS_YES_NO)
-            dialog.set_transient_for(self.window)
-            dialog.set_markup('There is the same title theme already.\nDo you overwrite it? (The theme overwritten cannot restore.)')
-            answer = dialog.run()
-            dialog.destroy()
-            if answer == gtk.RESPONSE_YES:
-                command += ' --force' # FIXME
-            else:
-                return
-
-
         # --Execute--------------------------
         import commands
         command = command.replace('"', '\\"') # escape
