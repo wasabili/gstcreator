@@ -32,9 +32,6 @@ UI_PATH = os.path.join(os.getcwd(), 'gstcreator.ui')
 STCREATOR = '/usr/bin/stcreator'
 SOUND_DIR = '/usr/share/sounds'
 
-# For testing
-#STCREATOR = '/home/wasabi/src/stcreator/stcreator.py'
-#SOUND_DIR = '/home/wasabi/src'
 
 class GSoundThemeCreator:
 
@@ -97,6 +94,19 @@ class GSoundThemeCreator:
             dist = self.xml.get_object('fc_distination').get_filename() or '~/'
             target = dist
         command += ' --target='+target
+
+
+        # --Overwrite?---------------------------
+        if os.path.exists(os.path.join(target, title)):
+            dialog = gtk.MessageDialog(type=gtk.MESSAGE_WARNING, buttons=gtk.BUTTONS_YES_NO)
+            dialog.set_transient_for(self.window)
+            dialog.set_markup('There is the same title theme already.\nDo you overwrite it? (The theme overwritten cannot restore.)')
+            answer = dialog.run()
+            dialog.destroy()
+            if answer == gtk.RESPONSE_YES:
+                command += ' --force' # FIXME
+            else:
+                return
 
 
         # --Sound files--------------------------
