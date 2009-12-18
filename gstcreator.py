@@ -50,18 +50,24 @@ class GSoundThemeCreator:
         self.xml.get_object('rb_install').set_active(True)
 
         # filters
-        oggfilter = gtk.FileFilter()
-        oggfilter.set_name('Ogg/WAV files')
-        oggfilter.add_pattern('*.oga')
-        oggfilter.add_pattern('*.ogg')
-        oggfilter.add_pattern('*.wav')
-        allfilter = gtk.FileFilter()
-        allfilter.set_name('All files')
-        allfilter.add_pattern('*')
+        self.oggfilter = gtk.FileFilter()
+        self.oggfilter.set_name('Ogg/WAV files')
+        self.oggfilter.add_pattern('*.oga')
+        self.oggfilter.add_pattern('*.ogg')
+        self.oggfilter.add_pattern('*.wav')
+        self.allfilter = gtk.FileFilter()
+        self.allfilter.set_name('All files')
+        self.allfilter.add_pattern('*')
         for fc in ['fc_login', 'fc_logout', 'fc_error', 'fc_warning', 'fc_information', 'fc_question', 'fc_sysready']:
             obj = self.xml.get_object(fc)
-            obj.add_filter(oggfilter)
-            obj.add_filter(allfilter)
+            obj.add_filter(self.oggfilter)
+            obj.add_filter(self.allfilter)
+
+        # Other event sounds
+        self.vb_others = self.xml.get_object('vb_other_events')
+        self.cmb_events = self.xml.get_object('cmb_events')
+        self.list_events = self.cmb_events.get_model()
+        self.btn_add_events = self.xml.get_object('btn_add_another_event')
 
         self.window = self.xml.get_object('mainwindow')
         self.window.show_all()
@@ -183,6 +189,50 @@ class GSoundThemeCreator:
     def on_rb_save_toggled(self, widget, *args):
         fc = self.xml.get_object('fc_distination')
         fc.set_sensitive(widget.get_active())
+
+    def on_btn_add_another_event_clicked(self, widget, *args):
+
+        # |--------------------------|----------|--------|
+        # | label                    | fcbutton | remove |
+        # |--------------------------|----------|--------|
+        hb = gtk.HBox(spacing=6)
+
+        current_iter = self.cmb_events.get_active_iter()
+        if not self.list_events.get_value(current_iter, 1):
+            return
+        value = self.list_events.get_value(current_iter, 0)
+
+        # CheckButton
+        lb = gtk.Label()
+        lb.set_alignment(0, 0.5)
+        lb.set_label('%s :' % value) # TODO format
+
+        # FileChooserButton
+        fb = gtk.FileChooserButton(title='')
+        fb.add_filter(self.oggfilter)
+        fb.add_filter(self.allfilter)
+        fb.connect('file-set', self.on_fc_file_set)
+
+        # Button
+        bt = gtk.Button(stock=gtk.STOCK_REMOVE)
+        bt.connect('clicked', self.on_btn_remove_clicked, hb, current_iter)
+        
+        hb.pack_start(lb, expand=True)
+        hb.pack_start(fb, expand=True)
+        hb.pack_start(bt, expand=False)
+
+        self.vb_others.pack_start(hb)
+        self.vb_others.show_all()
+
+        # get back focus FIXME it doesnt work
+        self.btn_add_events.grab_focus()
+
+        # Mark as already selected
+        self.list_events.set(current_iter, 1, False)
+
+    def on_btn_remove_clicked(self, widget, hbox, event_iter, *args):
+        self.vb_others.remove(hbox)
+        self.list_events.set(event_iter, 1, True)
 
     def gtk_main_quit(self, *args):
         gtk.main_quit()

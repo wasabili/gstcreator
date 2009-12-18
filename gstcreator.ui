@@ -95,216 +95,317 @@
                 <property name="visible">True</property>
                 <property name="left_padding">12</property>
                 <child>
-                  <object class="GtkTable" id="table1">
+                  <object class="GtkVBox" id="vbox4">
                     <property name="visible">True</property>
-                    <property name="n_rows">7</property>
-                    <property name="n_columns">2</property>
-                    <property name="column_spacing">18</property>
-                    <property name="row_spacing">6</property>
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">12</property>
                     <child>
-                      <object class="GtkFileChooserButton" id="fc_login">
+                      <object class="GtkTable" id="table1">
                         <property name="visible">True</property>
-                        <property name="sensitive">False</property>
-                        <property name="create_folders">False</property>
-                        <signal name="file_set" handler="on_fc_file_set"/>
+                        <property name="n_rows">7</property>
+                        <property name="n_columns">2</property>
+                        <property name="column_spacing">18</property>
+                        <property name="row_spacing">6</property>
+                        <child>
+                          <object class="GtkFileChooserButton" id="fc_login">
+                            <property name="visible">True</property>
+                            <property name="sensitive">False</property>
+                            <property name="create_folders">False</property>
+                            <signal name="file_set" handler="on_fc_file_set"/>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="y_options">GTK_EXPAND</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkFileChooserButton" id="fc_logout">
+                            <property name="visible">True</property>
+                            <property name="sensitive">False</property>
+                            <property name="create_folders">False</property>
+                            <signal name="file_set" handler="on_fc_file_set"/>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                            <property name="y_options">GTK_EXPAND</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkFileChooserButton" id="fc_error">
+                            <property name="visible">True</property>
+                            <property name="sensitive">False</property>
+                            <property name="create_folders">False</property>
+                            <signal name="file_set" handler="on_fc_file_set"/>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                            <property name="y_options">GTK_EXPAND</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkFileChooserButton" id="fc_warning">
+                            <property name="visible">True</property>
+                            <property name="sensitive">False</property>
+                            <property name="create_folders">False</property>
+                            <signal name="file_set" handler="on_fc_file_set"/>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">3</property>
+                            <property name="bottom_attach">4</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkFileChooserButton" id="fc_question">
+                            <property name="visible">True</property>
+                            <property name="sensitive">False</property>
+                            <property name="create_folders">False</property>
+                            <signal name="file_set" handler="on_fc_file_set"/>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">5</property>
+                            <property name="bottom_attach">6</property>
+                            <property name="y_options">GTK_EXPAND</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkFileChooserButton" id="fc_sysready">
+                            <property name="visible">True</property>
+                            <property name="sensitive">False</property>
+                            <property name="create_folders">False</property>
+                            <signal name="file_set" handler="on_fc_file_set"/>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">6</property>
+                            <property name="bottom_attach">7</property>
+                            <property name="y_options">GTK_EXPAND</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="cb_logout">
+                            <property name="label" translatable="yes">Logout event</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_cb_logout_toggled"/>
+                          </object>
+                          <packing>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                            <property name="y_options">GTK_EXPAND</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="cb_login">
+                            <property name="label" translatable="yes">Login event</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_cb_login_toggled"/>
+                          </object>
+                          <packing>
+                            <property name="y_options">GTK_EXPAND</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="cb_warning">
+                            <property name="label" translatable="yes">Warning dialog event</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_cb_warning_toggled"/>
+                          </object>
+                          <packing>
+                            <property name="top_attach">3</property>
+                            <property name="bottom_attach">4</property>
+                            <property name="y_options">GTK_EXPAND</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="cb_question">
+                            <property name="label" translatable="yes">Question dialog event</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_cb_question_toggled"/>
+                          </object>
+                          <packing>
+                            <property name="top_attach">5</property>
+                            <property name="bottom_attach">6</property>
+                            <property name="y_options">GTK_EXPAND</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="cb_sysready">
+                            <property name="label" translatable="yes">System ready event (GDM startup)</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_cb_sysready_toggled"/>
+                          </object>
+                          <packing>
+                            <property name="top_attach">6</property>
+                            <property name="bottom_attach">7</property>
+                            <property name="y_options">GTK_EXPAND</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="cb_error">
+                            <property name="label" translatable="yes">Error dialog event</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_cb_error_toggled"/>
+                          </object>
+                          <packing>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                            <property name="y_options">GTK_EXPAND</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="cb_information">
+                            <property name="label" translatable="yes">Information dialog event</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_cb_information_toggled"/>
+                          </object>
+                          <packing>
+                            <property name="top_attach">4</property>
+                            <property name="bottom_attach">5</property>
+                            <property name="y_options">GTK_EXPAND</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkFileChooserButton" id="fc_information">
+                            <property name="visible">True</property>
+                            <property name="sensitive">False</property>
+                            <property name="create_folders">False</property>
+                            <signal name="file_set" handler="on_fc_file_set"/>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">4</property>
+                            <property name="bottom_attach">5</property>
+                            <property name="y_options">GTK_EXPAND</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="y_options">GTK_EXPAND</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkFileChooserButton" id="fc_logout">
-                        <property name="visible">True</property>
-                        <property name="sensitive">False</property>
-                        <property name="create_folders">False</property>
-                        <signal name="file_set" handler="on_fc_file_set"/>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
-                        <property name="y_options">GTK_EXPAND</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkFileChooserButton" id="fc_error">
-                        <property name="visible">True</property>
-                        <property name="sensitive">False</property>
-                        <property name="create_folders">False</property>
-                        <signal name="file_set" handler="on_fc_file_set"/>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="top_attach">2</property>
-                        <property name="bottom_attach">3</property>
-                        <property name="y_options">GTK_EXPAND</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkFileChooserButton" id="fc_warning">
-                        <property name="visible">True</property>
-                        <property name="sensitive">False</property>
-                        <property name="create_folders">False</property>
-                        <signal name="file_set" handler="on_fc_file_set"/>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="top_attach">3</property>
-                        <property name="bottom_attach">4</property>
-                        <property name="y_options"></property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkFileChooserButton" id="fc_question">
-                        <property name="visible">True</property>
-                        <property name="sensitive">False</property>
-                        <property name="create_folders">False</property>
-                        <signal name="file_set" handler="on_fc_file_set"/>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="top_attach">5</property>
-                        <property name="bottom_attach">6</property>
-                        <property name="y_options">GTK_EXPAND</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkFileChooserButton" id="fc_sysready">
-                        <property name="visible">True</property>
-                        <property name="sensitive">False</property>
-                        <property name="create_folders">False</property>
-                        <signal name="file_set" handler="on_fc_file_set"/>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="top_attach">6</property>
-                        <property name="bottom_attach">7</property>
-                        <property name="y_options">GTK_EXPAND</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="cb_logout">
-                        <property name="label" translatable="yes">Logout event</property>
+                      <object class="GtkExpander" id="expander1">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="draw_indicator">True</property>
-                        <signal name="toggled" handler="on_cb_logout_toggled"/>
+                        <child>
+                          <object class="GtkAlignment" id="alignment4">
+                            <property name="visible">True</property>
+                            <property name="left_padding">12</property>
+                            <child>
+                              <object class="GtkVBox" id="vbox5">
+                                <property name="visible">True</property>
+                                <property name="orientation">vertical</property>
+                                <property name="spacing">6</property>
+                                <child>
+                                  <object class="GtkVBox" id="vb_other_events">
+                                    <property name="visible">True</property>
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">6</property>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkHBox" id="hbox6">
+                                    <property name="visible">True</property>
+                                    <property name="spacing">6</property>
+                                    <child>
+                                      <object class="GtkLabel" id="label6">
+                                        <property name="visible">True</property>
+                                        <property name="xalign">0</property>
+                                        <property name="label" translatable="yes">Add an event sound:</property>
+                                      </object>
+                                      <packing>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkComboBox" id="cmb_events">
+                                        <property name="visible">True</property>
+                                        <property name="model">liststore1</property>
+                                        <property name="active">0</property>
+                                        <child>
+                                          <object class="GtkCellRendererText" id="cellrenderertext1"/>
+                                          <attributes>
+                                            <attribute name="sensitive">1</attribute>
+                                            <attribute name="text">0</attribute>
+                                          </attributes>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkButton" id="btn_add_another_event">
+                                        <property name="label">gtk-add</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <property name="use_stock">True</property>
+                                        <signal name="clicked" handler="on_btn_add_another_event_clicked"/>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="position">2</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child type="label">
+                          <object class="GtkLabel" id="label5">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">Other events</property>
+                          </object>
+                        </child>
                       </object>
                       <packing>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
-                        <property name="y_options">GTK_EXPAND</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="cb_login">
-                        <property name="label" translatable="yes">Login event</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="draw_indicator">True</property>
-                        <signal name="toggled" handler="on_cb_login_toggled"/>
-                      </object>
-                      <packing>
-                        <property name="y_options">GTK_EXPAND</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="cb_warning">
-                        <property name="label" translatable="yes">Warning dialog event</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="draw_indicator">True</property>
-                        <signal name="toggled" handler="on_cb_warning_toggled"/>
-                      </object>
-                      <packing>
-                        <property name="top_attach">3</property>
-                        <property name="bottom_attach">4</property>
-                        <property name="y_options">GTK_EXPAND</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="cb_question">
-                        <property name="label" translatable="yes">Question dialog event</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="draw_indicator">True</property>
-                        <signal name="toggled" handler="on_cb_question_toggled"/>
-                      </object>
-                      <packing>
-                        <property name="top_attach">5</property>
-                        <property name="bottom_attach">6</property>
-                        <property name="y_options">GTK_EXPAND</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="cb_sysready">
-                        <property name="label" translatable="yes">System ready event (GDM startup)</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="draw_indicator">True</property>
-                        <signal name="toggled" handler="on_cb_sysready_toggled"/>
-                      </object>
-                      <packing>
-                        <property name="top_attach">6</property>
-                        <property name="bottom_attach">7</property>
-                        <property name="y_options">GTK_EXPAND</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="cb_error">
-                        <property name="label" translatable="yes">Error dialog event</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="draw_indicator">True</property>
-                        <signal name="toggled" handler="on_cb_error_toggled"/>
-                      </object>
-                      <packing>
-                        <property name="top_attach">2</property>
-                        <property name="bottom_attach">3</property>
-                        <property name="y_options">GTK_EXPAND</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="cb_information">
-                        <property name="label" translatable="yes">Information dialog event</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="draw_indicator">True</property>
-                        <signal name="toggled" handler="on_cb_information_toggled"/>
-                      </object>
-                      <packing>
-                        <property name="top_attach">4</property>
-                        <property name="bottom_attach">5</property>
-                        <property name="y_options">GTK_EXPAND</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkFileChooserButton" id="fc_information">
-                        <property name="visible">True</property>
-                        <property name="sensitive">False</property>
-                        <property name="create_folders">False</property>
-                        <signal name="file_set" handler="on_fc_file_set"/>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="top_attach">4</property>
-                        <property name="bottom_attach">5</property>
-                        <property name="y_options">GTK_EXPAND</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
@@ -460,5 +561,27 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkListStore" id="liststore1">
+    <columns>
+      <!-- column-name Events -->
+      <column type="gchararray"/>
+      <!-- column-name sensitive -->
+      <column type="gboolean"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">window-close</col>
+        <col id="1">True</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">window-slide-in</col>
+        <col id="1">True</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">window-slide-out</col>
+        <col id="1">True</col>
+      </row>
+    </data>
   </object>
 </interface>
