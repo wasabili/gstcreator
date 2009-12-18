@@ -96,38 +96,38 @@ class GSoundThemeCreator:
         else:
             dist = self.xml.get_object('fc_distination').get_filename() or '~/'
             target = dist
-        command += (' --target='+target)
+        command += ' --target='+target
 
 
         # --Sound files--------------------------
         if self.xml.get_object('cb_login').get_active():
             login = self.xml.get_object('fc_login').get_filename() or ''
             if login:
-                command += (' --login='+login)
+                command += ' --login='+login
         if self.xml.get_object('cb_logout').get_active():
             logout = self.xml.get_object('fc_logout').get_filename() or ''
             if logout:
-                command += (' --logout='+logout)
+                command += ' --logout='+logout
         if self.xml.get_object('cb_error').get_active():
             error = self.xml.get_object('fc_error').get_filename() or ''
             if error:
-                command += (' --error='+error)
+                command += ' --error='+error
         if self.xml.get_object('cb_warning').get_active():
             warning = self.xml.get_object('fc_warning').get_filename() or ''
             if warning:
-                command += (' --warning='+warning)
+                command += ' --warning='+warning
         if self.xml.get_object('cb_information').get_active():
             information = self.xml.get_object('fc_information').get_filename() or ''
             if information:
-                command += (' --information='+information)
+                command += ' --information='+information
         if self.xml.get_object('cb_question').get_active():
             question = self.xml.get_object('fc_question').get_filename() or ''
             if question:
-                command += (' --question='+question)
+                command += ' --question='+question
         if self.xml.get_object('cb_sysready').get_active():
             sysready = self.xml.get_object('fc_sysready').get_filename() or ''
             if sysready:
-                command += (' --sysready='+sysready)
+                command += ' --sysready='+sysready
 
 
         # --Overwrite?---------------------------
@@ -205,15 +205,17 @@ class GSoundThemeCreator:
 
     def on_btn_add_another_event_clicked(self, widget, *args):
 
+        # Selection in combobox
+        current_iter = self.cmb_events.get_active_iter()
+        value = self.list_events.get_value(current_iter, 0)
+        if not self.list_events.get_value(current_iter, 1):
+            return
+
+
         # |--------------------------|----------|--------|
         # | label                    | fcbutton | remove |
         # |--------------------------|----------|--------|
         hb = gtk.HBox(spacing=6)
-
-        current_iter = self.cmb_events.get_active_iter()
-        if not self.list_events.get_value(current_iter, 1):
-            return
-        value = self.list_events.get_value(current_iter, 0)
 
         # CheckButton
         lb = gtk.Label()
