@@ -97,7 +97,7 @@ class GSoundThemeCreator:
 
         # --Distination-------------------------
         if self.xml.get_object('rb_install').get_active():
-            needsu = not not os.geteuid()
+            needsu = True
             target = SOUND_DIR
         else:
             dist = self.xml.get_object('fc_distination').get_filename() or '~/'
@@ -105,15 +105,24 @@ class GSoundThemeCreator:
         command += ' --target='+target
 
 
-        # --Overwrite?---------------------------
-        if os.path.exists(os.path.join(target, title)):
+        # --Overwrite? (Only in direct install) -------
+        themedir = os.path.join(target, title)
+        if needsu and os.path.exists(themedir):
             dialog = gtk.MessageDialog(type=gtk.MESSAGE_WARNING, buttons=gtk.BUTTONS_YES_NO)
             dialog.set_transient_for(self.window)
             dialog.set_markup('There is the same title theme already.\nDo you overwrite it? (The theme overwritten cannot restore.)')
             answer = dialog.run()
             dialog.destroy()
             if answer == gtk.RESPONSE_YES:
-                command += ' --force' # FIXME
+                import commands # TODO not so beautiful code :)
+                status, output = commands.getstatusoutput('gksu -D "Sound Theme Creator" "rm -r %s"' % themedir)
+                if status:
+                    dialog = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK)
+                    dialog.set_transient_for(self.window)
+                    dialog.set_markup('Error while removing the old theme...')
+                    dialog.run()
+                    dialog.destroy()
+                    return
             else:
                 return
 
@@ -237,7 +246,7 @@ class GSoundThemeCreator:
         # CheckButton
         lb = gtk.Label()
         lb.set_alignment(0, 0.5)
-        lb.set_label('%s :' % value) # TODO format
+        lb.set_label('%s :' % value)
 
         # FileChooserButton
         fb = gtk.FileChooserButton(title='')
