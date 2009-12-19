@@ -33,9 +33,11 @@ UI_PATH = os.path.join(os.getcwd(), 'gstcreator.ui')
 STCREATOR = '/usr/bin/stcreator'
 SOUND_DIR = '/usr/share/sounds'
 
-EXTRA_EVENT_SOUNDS = (('Press a button', True, 'bell'),
-('Click a menu', True, 'menu-click'),
-('Empty the trush', True, 'trush-empty'))
+EXTRA_EVENT_SOUNDS = (('Press a button', 'button-pressed'),
+('Click a menu', 'menu-click'),
+('Empty the trush', 'trush-empty'),
+('Recieve a new instant message', 'message-new-instant'),
+('Open a new window', 'window-new'))
 
 class GSoundThemeCreator:
 
@@ -72,7 +74,7 @@ class GSoundThemeCreator:
         self.btn_add_events = self.xml.get_object('btn_add_another_event')
         self.list_events = self.cmb_events.get_model()
         for i in EXTRA_EVENT_SOUNDS:
-            self.list_events.append(i)
+            self.list_events.append((i[0], True, i[1]))
         self.cmb_events.set_active(0)
 
         self.window = self.xml.get_object('mainwindow')
