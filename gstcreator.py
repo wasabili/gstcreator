@@ -34,10 +34,17 @@ STCREATOR = '/usr/bin/stcreator'
 SOUND_DIR = '/usr/share/sounds'
 
 EXTRA_EVENT_SOUNDS = (('Press a button', 'button-pressed'),
+('Activate a check button', 'button-toggle-on'),
+('Deactivate a check button', 'button-toggle-off'),
 ('Click a menu', 'menu-click'),
-('Empty the trush', 'trush-empty'),
+('Change a tab', 'notebook-tab-changed'),
+None,
+('Empty Trash', 'trash-empty'),
+None,
 ('Recieve a new instant message', 'message-new-instant'),
-('Open a new window', 'window-new'))
+None,
+('Open a new window', 'window-new'),
+('Close a window', 'window-close'))
 
 class GSoundThemeCreator:
 
@@ -72,10 +79,15 @@ class GSoundThemeCreator:
         # Other event sounds
         self.vb_others = self.xml.get_object('vb_other_events')
         self.cmb_events = self.xml.get_object('cmb_events')
+        func = lambda model, iter, data=None :  model.get_value(iter, 0) == ''
+        self.cmb_events.set_row_separator_func(func)
         self.btn_add_events = self.xml.get_object('btn_add_another_event')
         self.list_events = self.cmb_events.get_model()
         for i in EXTRA_EVENT_SOUNDS:
-            self.list_events.append((i[0], True, i[1]))
+            if i is None:
+                self.list_events.append(('', True, ''))
+            else:
+                self.list_events.append((i[0], True, i[1]))
         self.cmb_events.set_active(0)
 
         self.window = self.xml.get_object('mainwindow')
