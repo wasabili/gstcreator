@@ -41,6 +41,7 @@ EXTRA_EVENT_SOUNDS = (('Press a button', 'button-pressed'),
 
 class GSoundThemeCreator:
 
+    flocation = None
     extras = {}
 
     def __init__(self):
@@ -193,10 +194,12 @@ class GSoundThemeCreator:
         return value
 
     def on_fc_file_set(self, widget, *args):
-        location = widget.get_current_folder()
+        self.flocation = widget.get_current_folder()
         for fc in ['fc_login', 'fc_logout', 'fc_error', 'fc_warning', 'fc_information', 'fc_question', 'fc_sysready']:
             obj = self.xml.get_object(fc)
-            obj.get_filename() or obj.set_current_folder(location)
+            obj.get_filename() or obj.set_current_folder(self.flocation)
+        for obj in self.extras.values():
+            obj.get_filename() or obj.set_current_folder(self.flocation)
 
     def on_cb_login_toggled(self, widget, *args):
         fc = self.xml.get_object('fc_login')
@@ -255,6 +258,8 @@ class GSoundThemeCreator:
         fb.add_filter(self.oggfilter)
         fb.add_filter(self.allfilter)
         fb.connect('file-set', self.on_fc_file_set)
+        if self.flocation:
+            fb.set_current_folder(self.flocation)
 
         # Button
         bt = gtk.Button(stock=gtk.STOCK_REMOVE)
